@@ -383,7 +383,7 @@ of box office revenue.
 \par There are also other student projects that attempted to predict user ratings. One was done for the Machine Learning class (CS229) \cite{hitorflop}, where they used Naive Bayes and Support Vector Machines to predict IMDb user ratings and profitability. Their system performed moderately well on their test data. Another similar project \cite{cooper} used regression (Support Vector Regression, Boosted Decision Trees, Gradient Boosting Regression and Random Forest Regression) over a different dataset (The Sagel Index of the top and worst 1000 films), predicting audience ratings on Rotten Tomatoes. Their system resulted in error rates of roughly 10\%.
 
 
-\section{Details}
+\section{Methodology}
 
 \subsection{Dataset}
 Our dataset is the list of all movies from IMDb that fulfill the following properties
@@ -396,15 +396,29 @@ Our dataset is the list of all movies from IMDb that fulfill the following prope
 number for our algorithm sot run on. Limiting the data to movies with a reasonable number of user votes
 also ensures that the rating data is not too noisy. We save 20\% of the data for testing, and use the rest for development.
 
+\subsection{Implementation}
+We started by converting the IMDb dataset [insert reference to API] into MySQL to allow us to quickly explore the dataset and to speed up development. [Justin, more details to add here?]
+\\
+\par We then created feature extractors for the metadata available in the dataset. In order to reduce the feature vector size, we filter out
+\begin{itemize}
+	\item actors with at least 2 movie appearances
+	\item keywords used to describe at least 10 movies
+\end{itemize}
+
+Additionally, since our features have wildly different ranges (some are counts while others are dollar amounts), we perform feature normalization so that each feature contributes equally to the final result.
+\\
+\par For both the baseline and oracle, we used Stochastic Gradient Descent using Linear Regression to predict the user rating of a movie on IMDb (on a scale of 0 - 10) with 100 iterations and $\eta$ of 0.001.
+
+\section{Preliminary results}
 \subsection{Baseline}
-For our baseline, we used Stochastic Gradient Descent using Linear Regression to generate weights for the following features:
+For our baseline, we included the following features:
 \begin{itemize}
 	\item Complete cast members, which includes actors, directors, producers, etc.
 	\item Movie genre
 	\item Keywords describing the movie
 \end{itemize}
 
-This results in an error rate of XXX.
+This results in a sample standard deviation of 0.06 on the training data, and 1.78 on the test data.
 
 \subsection{Oracle}
 For our oracle, we added additional features which are movie data available \emph{after} a movie is released. These are:
@@ -439,7 +453,7 @@ This results in an error rate of XXX.
 % (used to reserve space for the reference number labels box)
 \begin{thebibliography}{1}
 \bibitem{marketing}
-H-T Thorsten, H. Mark, W. Gianfranco, \emph{Determinants of Mo- tion Picture Box Office and Profitability: An Interrelationship Approach} \hskip 1em plus 0.5em minus 0.4em\relax Review of Managerial Science, 2006.
+H-T Thorsten, H. Mark, W. Gianfranco, \emph{Determinants of Motion Picture Box Office and Profitability: An Interrelationship Approach} \hskip 1em plus 0.5em minus 0.4em\relax Review of Managerial Science, 2006.
 \bibitem{greenlight}
 B.~Deniz and R.~B.~Hasbrouck, \emph{WHEN TO GREENLIGHT:Examining the Pre-release Factors that Determine Future Box Office Success of a Movie in the United States}
 \hskip 1em plus 0.5em minus 0.4em\relax International Journal of Economics and Management Sciences, 2012.

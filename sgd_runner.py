@@ -1,7 +1,7 @@
 import json
 import math
 
-from matplotlib import pyplot
+from cache import Cache
 
 def compute_gradient_linear_regression(weights, features, label):
     scale = dotProduct(features, weights) - label
@@ -37,11 +37,16 @@ class SGDRunner(object):
         weights = self.run_sgd(self.data, self.dev_movie_ids, compute_gradient_linear_regression)
         print "Computing errors"
         print "Standard error on test data is: %s" % (self.standard_error(self.data, self.test_movie_ids, weights))
+        save_weights()
 
     def load_data(self):
         self.data = json.load(open('data/features.json'))
         self.dev_movie_ids = json.load(open('data/dev.json'))
         self.test_movie_ids = json.load(open('data/test.json'))
+
+    def save_weights(self):
+        WEIGHTS_PATH = os.path.join('data', 'weights.json')
+        Cache.save_file(WEIGHTS_PATH, weights)
 
     def run_sgd(self, data, movie_ids, compute_gradient):
         self.normalize_features(data)

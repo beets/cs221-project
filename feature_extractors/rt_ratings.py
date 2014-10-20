@@ -30,9 +30,9 @@ class RtRatingsFeatureExtractor(Base):
             if critics_score > 0:
                 features[movie_id]['rt_critics_score'] = critics_score
             if critics_rating != '0':
-                features[movie_id]['rt_critics_rating'] = critics_rating
+                features[movie_id]['rt_critics_rating_' + critics_rating] = 1
             if audience_score > 0:
                 features[movie_id]['rt_audience_score'] = audience_score
             if audience_rating != '0':
-                features[movie_id]['rt_audience_rating'] = audience_rating
+                features[movie_id]['rt_audience_rating_' + audience_rating] = 1
         return features
